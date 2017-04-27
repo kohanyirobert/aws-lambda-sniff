@@ -1,3 +1,4 @@
+import re
 import os
 import youtube_dl
 import boto3
@@ -9,17 +10,23 @@ os.environ['PATH'] += os.pathsep + os.getcwd()
 
 class HandlerLogger:
 
-    PREFIX = '[ffmpeg] Destination: '
+    PATTERNS = [
+            re.compile(r'\[ffmpeg\] Destination: (?P<audiopath>.*)'),
+            re.compile(r'\[ffmpeg\] Post-process file (?P<audiopath>.*) exists, skipping'),
+    ]
 
     def debug(self, msg):
-        if msg.startswith(self.PREFIX):
-            self.audiopath = Path(msg[len(self.PREFIX):])
+        print(msg)
+        for pattern in self.PATTERNS:
+            match = pattern.match(msg)
+            if match:
+                self.audiopath = Path(match.group('audiopath'))
 
     def warning(self, msg):
-        pass
+        print(msg)
 
     def error(self, msg):
-        pass
+        print(msg)
 
 
 def download_and_get_audio_path(work_dir, url):
