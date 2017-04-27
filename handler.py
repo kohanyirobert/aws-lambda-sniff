@@ -1,7 +1,7 @@
 import os
 import youtube_dl
 import boto3
-from subprocess import call
+from subprocess import call, DEVNULL
 from pathlib import Path
 
 os.environ['PATH'] += os.pathsep + os.getcwd()
@@ -60,7 +60,7 @@ def add_replaygain_tags(audiopath, work_dir):
         '--output',
         str(tmp_dir),
         str(audiopath),
-    ])
+    ], stdout=DEVNULL)
 
     call([
         'mv',
