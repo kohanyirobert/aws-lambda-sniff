@@ -13,3 +13,8 @@ include::VERSION[]
 * `tagit` (basics `taglib` based tagger)
 * `bs1770gain` (command-line replaygain scanner)
 * `youtube-dl`
+
+== Environment Variables
+
+* `BUCKET` - the S3 bucket name to upload audio files to.
+* `WORK_DIR` - the directory path to download temporary files, etc. (e.g. `/tmp`).
