@@ -1,0 +1,5 @@
+youtube_dl*
+__pycache__
+*.zip
+*.pyc
+*.swp

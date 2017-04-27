@@ -1,0 +1,11 @@
+= About
+
+AWS Lambda function that extracts audio, tags it and uploads it to S3.
+
+== Dependencies
+
+* `python3`
+* `ffmpeg` and `ffprobe` (static Linux binaries)
+* `tagit` (basics `taglib` based tagger)
+* `bs1770gain` (command-line replaygain scanner)
+* `youtube-dl`
