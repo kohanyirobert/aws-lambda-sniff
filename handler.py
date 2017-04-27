@@ -73,14 +73,15 @@ def get_final_filename(audiopath, artist, title):
     return '{} - {}{}'.format(artist, title, audiopath.suffix)
 
 
-def upload_to_s3(audiopath, filename):
+def upload_to_s3(audiopath, bucket, filename):
     s3 = boto3.resource('s3')
     with audiopath.open('rb') as f:
-        s3.meta.client.upload_file(str(audiopath), os.environ['BUCKET'], filename)
+        s3.meta.client.upload_file(str(audiopath), bucket, filename)
 
 
 def handler(event, context):
-    work_dir = Path(event['work_dir'])
+    work_dir = Path(os.environ['WORK_DIR'])
+    bucket = os.environ['BUCKET']
     url = event['url']
     artist = event['artist']
     title = event['title']
@@ -89,6 +90,6 @@ def handler(event, context):
     add_artist_and_title_tags(audiopath, artist, title)
     add_replaygain_tags(audiopath, work_dir)
     filename = get_final_filename(audiopath, artist, title)
-    upload_to_s3(audiopath, filename)
+    upload_to_s3(audiopath, bucket, filename)
 
     return None
