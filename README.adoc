@@ -2,6 +2,12 @@
 
 AWS Lambda function that extracts audio, tags it and uploads it to S3.
 
+== Version
+
+----
+include::VERSION[]
+----
+
 == Dependencies
 
 * `python3`

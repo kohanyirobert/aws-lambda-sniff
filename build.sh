@@ -1,2 +1,2 @@
 #! /bin/sh
-pip3 install youtube-dl -t .
+pip install -r requirements -t .
