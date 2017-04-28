@@ -87,6 +87,8 @@ def upload_to_s3(audiopath, bucket, filename):
 
 
 def handler(event, context):
+    print('event', event)
+
     work_dir = Path(os.environ['WORK_DIR'])
     bucket = os.environ['BUCKET']
     url = event['url']
