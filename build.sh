@@ -1,2 +1,2 @@
 #! /bin/sh
-pip install -r requirements -t .
+pip install --requirement requirements.txt --target . --upgrade
