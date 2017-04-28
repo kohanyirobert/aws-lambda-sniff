@@ -1,1 +1,1 @@
-youtube-dl
+git+git://github.com/rg3/youtube-dl.git@master
