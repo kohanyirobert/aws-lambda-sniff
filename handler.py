@@ -2,7 +2,8 @@ import re
 import os
 import youtube_dl
 import boto3
-from subprocess import call, DEVNULL
+from xml.etree import ElementTree
+from subprocess import check_call, check_output
 from pathlib import Path
 
 os.environ['PATH'] += os.pathsep + os.getcwd()
@@ -11,8 +12,8 @@ os.environ['PATH'] += os.pathsep + os.getcwd()
 class HandlerLogger:
 
     PATTERNS = [
-            re.compile(r'\[ffmpeg\] Destination: (?P<audiopath>.*)'),
-            re.compile(r'\[ffmpeg\] Post-process file (?P<audiopath>.*) exists, skipping'),
+        re.compile(r'\[ffmpeg\] Destination: (?P<audiopath>.*)'),
+        re.compile(r'\[ffmpeg\] Post-process file (?P<audiopath>.*) exists, skipping'),
     ]
 
     def debug(self, msg):
@@ -42,6 +43,9 @@ def download_and_get_audio_path(work_dir, url):
             'preferredcodec': 'best',
             'preferredquality': 'best',
         }],
+        'postprocessor_args': [
+            '-fflags', 'bitexact',
+        ],
         'logger': logger,
     }
 
@@ -53,27 +57,26 @@ def download_and_get_audio_path(work_dir, url):
 
 
 def add_artist_and_title_tags(audiopath, artist, title):
-    call(['tagit', 'c', str(audiopath)])
-    call(['tagit', 'i', 'ARTIST', artist, str(audiopath)])
-    call(['tagit', 'i', 'TITLE', title, str(audiopath)])
+    check_call(['tagit', 'c', str(audiopath)])
+    check_call(['tagit', 'i', 'ARTIST', artist, str(audiopath)])
+    check_call(['tagit', 'i', 'TITLE', title, str(audiopath)])
 
 
-def add_replaygain_tags(audiopath, work_dir):
-    tmp_dir = work_dir / 'tmp'
-
-    call([
+def add_replaygain_tags(audiopath):
+    xml = ElementTree.fromstring(check_output([
         'bs1770gain/bs1770gain',
         '--replaygain',
-        '--output',
-        str(tmp_dir),
+        '--xml',
         str(audiopath),
-    ], stdout=DEVNULL)
+    ]))
 
-    call([
-        'mv',
-        str(tmp_dir / audiopath.name),
-        str(audiopath),
-    ])
+    track_gain = xml.find('./album/track/integrated').attrib['lu']
+    album_gain = xml.find('./album/summary/integrated').attrib['lu']
+
+    check_call(['tagit', 'i', 'REPLAYGAIN_ALGORITHM', 'ITU-R BS.1770', str(audiopath)])
+    check_call(['tagit', 'i', 'REPLAYGAIN_REFERENCE_LOUDNESS', '-18.00', str(audiopath)])
+    check_call(['tagit', 'i', 'REPLAYGAIN_TRACK_GAIN', '{} dB'.format(track_gain), str(audiopath)])
+    check_call(['tagit', 'i', 'REPLAYGAIN_ALBUM_GAIN', '{} dB'.format(album_gain), str(audiopath)])
 
 
 def get_final_filename(audiopath, artist, title):
@@ -97,7 +100,7 @@ def handler(event, context):
 
     audiopath = download_and_get_audio_path(work_dir, url)
     add_artist_and_title_tags(audiopath, artist, title)
-    add_replaygain_tags(audiopath, work_dir)
+    add_replaygain_tags(audiopath)
     filename = get_final_filename(audiopath, artist, title)
     upload_to_s3(audiopath, bucket, filename)
 
