@@ -95,8 +95,9 @@ def handler(event, context):
     work_dir = Path(os.environ['WORK_DIR'])
     bucket = os.environ['BUCKET']
     url = event['url']
-    artist = event['ARTIST']
-    title = event['TITLE']
+    tags = event['tags']
+    artist = tags['ARTIST']
+    title = tags['TITLE']
 
     audiopath = download_and_get_audio_path(work_dir, url)
     add_artist_and_title_tags(audiopath, artist, title)
