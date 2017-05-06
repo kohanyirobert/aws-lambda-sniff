@@ -56,10 +56,10 @@ def download_and_get_audio_path(work_dir, url):
     return logger.audiopath
 
 
-def add_artist_and_title_tags(audiopath, artist, title):
+def add_tags(audiopath, tags):
     check_call(['tagit', 'c', str(audiopath)])
-    check_call(['tagit', 'i', 'ARTIST', artist, str(audiopath)])
-    check_call(['tagit', 'i', 'TITLE', title, str(audiopath)])
+    for tag_name, tag_value in tags.items():
+        check_call(['tagit', 'i', tag_name, tag_value, str(audiopath)])
 
 
 def add_replaygain_tags(audiopath):
@@ -100,7 +100,7 @@ def handler(event, context):
     title = tags['TITLE']
 
     audiopath = download_and_get_audio_path(work_dir, url)
-    add_artist_and_title_tags(audiopath, artist, title)
+    add_tags(audiopath, tags)
     add_replaygain_tags(audiopath)
     filename = get_final_filename(audiopath, artist, title)
     upload_to_s3(audiopath, bucket, filename)
