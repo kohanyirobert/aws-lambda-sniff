@@ -6,6 +6,11 @@ from xml.etree import ElementTree
 from subprocess import check_call, check_output
 from pathlib import Path
 
+VERSION_TAG_NAME = 'AWS_LAMBDA_SNIFF'
+VERSION_TAG_VALUE = None
+with Path('VERSION').open() as f:
+    VERSION_TAG_VALUE = f.read().strip()
+
 os.environ['PATH'] += os.pathsep + os.getcwd()
 
 
@@ -13,7 +18,8 @@ class HandlerLogger:
 
     PATTERNS = [
         re.compile(r'\[ffmpeg\] Destination: (?P<audiopath>.*)'),
-        re.compile(r'\[ffmpeg\] Post-process file (?P<audiopath>.*) exists, skipping'),
+        re.compile(
+            r'\[ffmpeg\] Post-process file (?P<audiopath>.*) exists, skipping'),
     ]
 
     def debug(self, msg):
@@ -62,6 +68,10 @@ def add_tags(audiopath, tags):
         check_call(['tagit', 'i', tag_name, tag_value, str(audiopath)])
 
 
+def add_vesion_tag(audiopath):
+    check_call(['tagit', 'i', VERSION_TAG_NAME, VERSION_TAG_VALUE, str(audiopath)])
+
+
 def add_replaygain_tags(audiopath):
     xml = ElementTree.fromstring(check_output([
         'bs1770gain/bs1770gain',
@@ -101,6 +111,7 @@ def handler(event, context):
 
     audiopath = download_and_get_audio_path(work_dir, url)
     add_tags(audiopath, tags)
+    add_vesion_tag(audiopath)
     add_replaygain_tags(audiopath)
     filename = get_final_filename(audiopath, artist, title)
     upload_to_s3(audiopath, bucket, filename)
