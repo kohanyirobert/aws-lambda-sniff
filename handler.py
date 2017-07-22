@@ -9,6 +9,7 @@ from subprocess import check_call, check_output
 from pathlib import Path
 
 print('defaultencoding', sys.getdefaultencoding())
+print('filesystemencoding', sys.getfilesystemencoding())
 print('preferredencoding', locale.getpreferredencoding())
 
 VERSION_TAG_NAME = 'AWS_LAMBDA_SNIFF'
