@@ -1,3 +1,5 @@
+import sys
+import locale
 import re
 import os
 import youtube_dl
@@ -5,6 +7,9 @@ import boto3
 from xml.etree import ElementTree
 from subprocess import check_call, check_output
 from pathlib import Path
+
+print('defaultencoding', sys.getdefaultencoding())
+print('preferredencoding', locale.getpreferredencoding())
 
 VERSION_TAG_NAME = 'AWS_LAMBDA_SNIFF'
 VERSION_TAG_VALUE = None
