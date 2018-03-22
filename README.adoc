@@ -18,3 +18,7 @@ include::VERSION[]
 
 * `BUCKET` - the S3 bucket name to upload audio files to.
 * `WORK_DIR` - the directory path to download temporary files, etc. (e.g. `/tmp`).
+* `NORMALIZE_FILENAME_SRC` - string of characters which are replaced in filenames (e.g. `/`)
+* `NORMALIZE_FILENAME_DST` - string of characters which are used as replacement in filenames (e.g. `-`).
+
+*Note*: `NORMALIZE_FILENAME_SRC` and `NORMALIZE_FILENAME_DST` are used together with `str.maketrans` as the functions two arguments.

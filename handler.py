@@ -17,6 +17,10 @@ VERSION_TAG_VALUE = None
 with Path('VERSION').open() as f:
     VERSION_TAG_VALUE = f.read().strip()
 
+NORMALIZE_FILENAME_SRC = os.environ['NORMALIZE_FILENAME_SRC']
+NORMALIZE_FILENAME_DST = os.environ['NORMALIZE_FILENAME_DST']
+NORMALIZE_FILENAME = str.maketrans(NORMALIZE_FILENAME_SRC, NORMALIZE_FILENAME_DST)
+
 os.environ['PATH'] += os.pathsep + os.getcwd()
 
 
@@ -96,7 +100,8 @@ def add_replaygain_tags(audiopath):
 
 
 def get_final_filename(audiopath, artist, title):
-    return '{} - {}{}'.format(artist, title, audiopath.suffix)
+    filename = '{} - {}{}'.format(artist, title, audiopath.suffix)
+    return filename.translate(NORMALIZE_FILENAME)
 
 
 def upload_to_s3(audiopath, bucket, filename):
