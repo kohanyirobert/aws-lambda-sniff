@@ -9,12 +9,16 @@ include::VERSION[]
 == Dependencies
 
 * `python3`
-* `ffmpeg` and `ffprobe` (static Linux binaries)
+* `ffmpeg` and `ffprobe` (version `3.3`, x86-64 static Linux binaries)
 * `tagit` (basics `taglib` based tagger)
 * `bs1770gain` (command-line replaygain scanner)
 * `youtube-dl` (version `2018.9.10`)
 
 == Making a Release
+
+NOTE: Didn't seem to work when deployed from Windows.
+Probably fails because the Windows version of the `youtube-dl` Python dependency does something differently than on Linux.
+Use Vagrant.
 
 ```
 ./build.sh
