@@ -8,11 +8,11 @@ include::VERSION[]
 
 == Dependencies
 
-* `python3`
+* `python3` (install dependencies with `pip3 install -r requirements.txt -t .`)
 * `ffmpeg` and `ffprobe` (static Linux binaries)
 * `tagit` (basics `taglib` based tagger)
 * `bs1770gain` (command-line replaygain scanner)
-* `youtube-dl`
+* `youtube-dl` (version `2018.9.10`)
 
 == Environment Variables
 
