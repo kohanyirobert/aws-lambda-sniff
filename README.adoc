@@ -8,7 +8,7 @@ include::VERSION[]
 
 == Dependencies
 
-* `python3`
+* `python3` and `pip3` (make sure that `./build` is run using these)
 * `ffmpeg` and `ffprobe` (version `3.3`, x86-64 static Linux binaries)
 * `tagit` (basics `taglib` based tagger)
 * `bs1770gain` (command-line replaygain scanner)
