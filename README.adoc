@@ -27,6 +27,12 @@ Use Vagrant.
 ./deploy.sh
 ```
 
+or simply
+
+```
+./all.sh
+```
+
 == Environment Variables
 
 * `BUCKET` - the S3 bucket name to upload audio files to.
