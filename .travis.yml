@@ -6,4 +6,4 @@ install:
   - echo "install"
 script:
   - echo "script"
-  - build.sh
+  - sh travis.sh
