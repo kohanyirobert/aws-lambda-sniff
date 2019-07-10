@@ -2,6 +2,9 @@ language: python
 dist: xenial
 python:
   - "3.7"
+before_isntall:
+  - echo "before install"
+  - pip3 install awscli
 install:
   - echo "install"
 script:
