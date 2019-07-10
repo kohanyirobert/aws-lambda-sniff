@@ -2,6 +2,7 @@ youtube-sigfuncs
 youtube_dl*
 __pycache__
 bin
+.history
 *.zip
 *.pyc
 *.swp

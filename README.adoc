@@ -2,6 +2,8 @@
 
 AWS Lambda function that extracts audio, tags it and uploads it to S3.
 
+NOTE: encrypted environment variables in `.travis.yml` were created with `travis encrypt --com KEY=VALUE --add` (https://stackoverflow.com/a/55790942/433835[note the `--com`]).
+
 == Version
 
 include::VERSION[]
@@ -15,6 +17,13 @@ include::VERSION[]
 * `youtube-dl` (version `2018.9.10`)
 
 == Making a Release
+
+=== Remotely
+
+Whenever a commit is made https://travis-ci.com/kohanyirobert/aws-lambda-sniff[Travis CI is triggered].
+A new package is created with the latest `youtube-dl` dependencies and it is pushed to AWS Lambda automatically.
+
+=== Locally
 
 NOTE: Didn't seem to work when deployed from Windows.
 Probably fails because the Windows version of the `youtube-dl` Python dependency does something differently than on Linux.
