@@ -18,28 +18,17 @@ include::VERSION[]
 
 == Making a Release
 
-=== Remotely
+=== Remote
 
 Whenever a commit is made https://travis-ci.com/kohanyirobert/aws-lambda-sniff[Travis CI is triggered].
 A new package is created with the latest `youtube-dl` dependencies and it is pushed to AWS Lambda automatically.
 
-=== Locally
+=== Local
 
-NOTE: Didn't seem to work when deployed from Windows.
-Probably fails because the Windows version of the `youtube-dl` Python dependency does something differently than on Linux.
-Use Vagrant.
+NOTE: `youtube-dl` can only use `ffmpeg`, `ffprobe` and other binaries if they're packaged as executable files.
 
 ```
-./build.sh
-./package.sh
-./upload.sh
-./deploy.sh
-```
-
-or simply
-
-```
-./all.sh
+./travis.sh
 ```
 
 == Environment Variables
