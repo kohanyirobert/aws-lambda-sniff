@@ -1,0 +1,11 @@
+name: deploy
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install AWS CLI
+      run: pip3 install awscli
+    - name: Run deploy script
+      run: sh travis.sh
