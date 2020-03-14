@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Install Python setuptools
+      run: sudo apt-get install python-setuptools
     - name: Install AWS CLI
       run: pip3 install awscli
     - name: Run deploy script
