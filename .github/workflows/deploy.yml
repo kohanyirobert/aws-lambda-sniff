@@ -1,8 +1,7 @@
-name: deploy
 on:
   push:
   repository_dispatch:
-    types: [deploy]
+    types: deploy
 jobs:
   deploy:
     runs-on: ubuntu-18.04
