@@ -2,8 +2,6 @@
 
 AWS Lambda function that extracts audio, tags it and uploads it to S3.
 
-NOTE: encrypted environment variables in `.travis.yml` were created with `travis encrypt --com KEY=VALUE --add` (https://stackoverflow.com/a/55790942/433835[note the `--com`]).
-
 == Version
 
 include::VERSION[]
@@ -20,7 +18,7 @@ include::VERSION[]
 
 === Remote
 
-Whenever a commit is made https://travis-ci.com/kohanyirobert/aws-lambda-sniff[Travis CI is triggered].
+Whenever a commit is made https://github.com/kohanyirobert/aws-lambda-sniff/actions?query=workflow%3A.github%2Fworkflows%2Fdeploy.yml[GitHub Actions is triggered].
 A new package is created with the latest `youtube-dl` dependencies and it is pushed to AWS Lambda automatically.
 
 === Local
@@ -28,7 +26,7 @@ A new package is created with the latest `youtube-dl` dependencies and it is pus
 NOTE: `youtube-dl` can only use `ffmpeg`, `ffprobe` and other binaries if they're packaged as executable files.
 
 ```
-./travis.sh
+./deploy.sh
 ```
 
 == Environment Variables
